@@ -1,0 +1,67 @@
+# ================================================================
+#  CyberForge Forensics Platform — Full Stack Docker Compose
+#  Brings up: PostgreSQL, Redis, FastAPI backend, Celery worker
+# ================================================================
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cyberforge-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cyberforge
+      POSTGRES_PASSWORD: strongpassword
+      POSTGRES_DB: cyberforge_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cyberforge -d cyberforge_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: cyberforge-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cyberforge-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://cyberforge:strongpassword@postgres:5432/cyberforge_db
+      REDIS_URL: redis://redis:6379/0
+      UPLOAD_DIR: /app/uploads
+      YARA_RULES_DIR: /app/yara_rules
+      MAX_FILE_SIZE_MB: ${MAX_FILE_SIZE_MB:-500}
+      VIRUSTOTAL_API_KEY: ${VIRUSTOTAL_API_KEY:-}
+      ABUSEIPDB_API_KEY: ${ABUSEIPDB_API_KEY:-}
+      OTX_API_KEY: ${OTX_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5173}
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-change-in-production}
+    volumes:
+      - uploads_data:/app/uploads
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:
+  uploads_data:

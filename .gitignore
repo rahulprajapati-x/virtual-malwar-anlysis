@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+cyberforge-frontend/node_modules/
+.pnp
+.pnp.js
+
+# Production
+dist/
+cyberforge-frontend/dist/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+cyberforge-backend/venv/
+cyberforge-backend/__pycache__/
+cyberforge-backend/uploads/*
+!cyberforge-backend/uploads/.gitkeep
+cyberforge-backend/*.db
+cyberforge-backend/cyberforge.db
+
+# Environment & secrets
+.env
+*.env
+*.pem
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Archive files
+*.zip

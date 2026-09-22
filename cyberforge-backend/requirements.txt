@@ -1,0 +1,80 @@
+# === CYBERFORGE BACKEND — REQUIREMENTS ===
+
+# Core API framework
+fastapi==0.115.11
+uvicorn[standard]==0.34.1
+python-multipart==0.0.20
+python-dotenv==1.0.1
+pydantic==2.10.6
+pydantic-settings==2.8.1
+
+# Async file handling
+aiofiles==24.1.0
+
+# Database
+sqlalchemy==2.0.38
+psycopg2-binary==2.9.10
+alembic==1.14.1
+
+# Task queue (async analysis)
+celery==5.4.0
+redis==5.2.1
+
+# ===== MALWARE ANALYSIS ENGINES =====
+
+# PE file parsing — Windows executable analysis
+pefile==2024.12.12
+
+# YARA rule scanning
+yara-python==4.5.2
+
+# File type detection (libmagic wrapper)
+python-magic==0.4.27
+
+# Fuzzy hashing (similarity matching) — requires libfuzzy-dev system package
+# Comment out if you don't need fuzzy hashing / build fails
+# ssdeep==3.4
+
+# ===== THREAT INTELLIGENCE APIs =====
+
+# HTTP client for API calls
+requests==2.32.3
+httpx==0.28.1
+
+# ===== REPORT GENERATION =====
+
+# PDF report generation
+reportlab==4.3.1
+Pillow==11.1.0
+
+# ===== UTILITIES =====
+
+# Entropy calculation helper
+scipy==1.15.2
+numpy==2.2.3
+
+# String extraction (like the `strings` Unix tool)
+# (built-in via regex — no extra dep needed)
+
+# Document Analysis
+oletools==0.60.2
+
+# APK Parsing
+pyaxmlparser==0.3.31
+
+# ===== AUTHENTICATION =====
+
+# JWT token handling
+PyJWT==2.10.1
+
+# Password hashing (bcrypt)
+passlib[bcrypt]==1.7.4
+
+# ===== NETWORK / PCAP ANALYSIS =====
+
+# PCAP/PCAPNG file parsing
+dpkt==1.9.9
+
+# ===== ADDITIONAL THREAT INTEL =====
+
+# Async HTTP client (already included as httpx above)
